@@ -1,5 +1,6 @@
 <html>
-  <head>
+
+<head>
     <!-- Standard Meta -->
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -10,119 +11,145 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.0.1/semantic.min.css">
     <style type="text/css">
+        input {
+            transition: all .5s !important;
+        }
     </style>
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.0.1/semantic.min.js"></script>
     <script src="Condor.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="ui page grid">
-      <div class="column">
-        <div class="ui form segment">
-          <h1 class="ui dividing header">Condor</h1>
-          <div class="ui grid">
-            <div class="ten wide column">
-              <h4 class="ui header">Demo</h4>
-              <p class="ui black">Click on "add another link" to the right to see Condor in action!</p>
-              <h5 class="ui header">Using Condor:</h5>
-              <a href="https://github.com/chen-ye/Condor/archive/master.zip" class="ui labeled icon blue button">
-                <i class="download icon"></i>
-                Download Condor
-              </a>
-              <a href="https://github.com/chen-ye/Condor" class="ui labeled icon button">
-                <i class="github icon"></i>
-                View on GitHub
-              </a>
-              <h6 class="ui header">DEPENDENCIES</h6>
-              <ul>
-                <li><a href="http://semantic-ui.com/">Semantic UI</a></li>
-                <li><a href="http://jquery.com/">JQuery</a></li>
-              </ul>
-              <h6 class="ui header">HTML</h6>
-              <div class="ui segment">
-                <p>Place this div where you want to use Condor: (it should be within a form)</p>
-                <code>
+        <div class="column">
+            <div class="ui form segment">
+                <h1 class="ui dividing header">Condor <span class="sub header">version 1.0</span></h1>
+                <div class="ui grid">
+                    <div class="ten wide column">
+                        <h4 class="ui header">Demo</h4>
+                        <p class="ui black">Click on "add another link" to the right to see Condor in action!</p>
+                        <h4 class="ui header">Using Condor:</h4>
+                        <a href="https://github.com/chen-ye/Condor/archive/master.zip" class="ui labeled icon blue button">
+                            <i class="download icon"></i>
+                            Download Condor
+                        </a>
+                        <a href="https://github.com/chen-ye/Condor" class="ui labeled icon button">
+                            <i class="github icon"></i>
+                            View on GitHub
+                        </a>
+                        <h6 class="ui header">DEPENDENCIES</h6>
+                        <ul>
+                            <li><a href="http://semantic-ui.com/">Semantic UI</a>
+                            </li>
+                            <li><a href="http://jquery.com/">JQuery</a>
+                            </li>
+                        </ul>
+                        <h6 class="ui header">HTML</h6>
+                        <div class="ui segment">
+                            <p>Place this div where you want to use Condor: (it should be within a form)</p>
+                            <code>
                   &lt;div id=&quot;condor&quot;&gt; <br>
                     &nbsp;&lt;!--This is where the condor field will show up.--&gt; <br>
                   &lt;/div&gt;
                 </code>
-                <br>
-                <p>At the end of your body, place this snippet of code:</p>
-                <code>
+                            <br>
+                            <p>At the end of your body, place this snippet of code:</p>
+                            <code>
                   &lt;script type=&quot;text/javascript&quot;&gt; <br>
                     &nbsp;$(document).ready(function() { <br>
                       &nbsp;&nbsp;$(&quot;#condor&quot;).condor(); <br>
                     &nbsp;}); <br>
                   &lt;/script&gt; <br>
                 </code>
-                <br>
-                <p>You can pass Condor options in a JSON object.  Parameters are documented below</p>
-              </div>
-              
-              <h6 class="ui header">OPTIONS</h6>
-              <table class="ui table">
-                <thead>
-                  <tr>
-                    <th>Setting</th>
-                    <th>Type Signature</th>
-                    <th>Default</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><b>maxInputs</b></td>
-                    <td><i>int</i></td>
-                    <td>10</td>
-                    <td>the max number of inputs this collection will resize to</td>
-                  </tr>
-                  <tr>
-                    <td><b>namePrefix</b></td>
-                    <td><i>string</i></td>
-                    <td>'inputs'</td>
-                    <td>what gets prepended to the name of each Condor input</td>
-                  </tr>
-                  <tr>
-                    <td><b>inactiveHint</b></td>
-                    <td><i>string</i></td>
-                    <td>'add input'</td>
-                    <td>the placeholder text for Condor input prompts</td>
-                  </tr>
-                  <tr>
-                    <td><b>activeHint</b></td>
-                    <td><i>string</i></td>
-                    <td>(empty)</td>
-                    <td>the placeholder text for activated Condor inputs</td>
-                  </tr>
-                  <tr>
-                    <td><b>activeIcon</b></td>
-                    <td><i>string</i></td>
-                    <td>'linkify'</td>
-                    <td>the semantic-ui icon for activated Condor inputs</td>
-                  </tr>
-                </tbody>
-              </table>
-              
+                            <br>
+                            <p>You can pass Condor options in a JSON object. Parameters are documented below</p>
+                        </div>
+
+                        <h6 class="ui header">OPTIONS</h6>
+                        <table class="ui table">
+                            <thead>
+                                <tr>
+                                    <th>Setting</th>
+                                    <th>Type Signature</th>
+                                    <th>Default</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>maxInputs</b>
+                                    </td>
+                                    <td><i>int</i>
+                                    </td>
+                                    <td>10</td>
+                                    <td>the max number of inputs this collection will resize to</td>
+                                </tr>
+                                <tr>
+                                    <td><b>uniqueNames</b>
+                                    </td>
+                                    <td><i>boolean</i>
+                                    </td>
+                                    <td>true</td>
+                                    <td>whether Condor inputs have unique ids appended to their namePrefix</td>
+                                </tr>
+                                <tr>
+                                    <td><b>namePrefix</b>
+                                    </td>
+                                    <td><i>string</i>
+                                    </td>
+                                    <td>'inputs'</td>
+                                    <td>what gets prepended to the name of each Condor input</td>
+                                </tr>
+                                <tr>
+                                    <td><b>inactiveHint</b>
+                                    </td>
+                                    <td><i>string</i>
+                                    </td>
+                                    <td>'add input'</td>
+                                    <td>the placeholder text for Condor input prompts</td>
+                                </tr>
+                                <tr>
+                                    <td><b>activeHint</b>
+                                    </td>
+                                    <td><i>string</i>
+                                    </td>
+                                    <td>(empty)</td>
+                                    <td>the placeholder text for activated Condor inputs</td>
+                                </tr>
+                                <tr>
+                                    <td><b>activeIcon</b>
+                                    </td>
+                                    <td><i>string</i>
+                                    </td>
+                                    <td>'linkify'</td>
+                                    <td>the semantic-ui icon for activated Condor inputs</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4 class="ui header">&copy; 2014 Chen Ye | MIT License</h4>
+
+                    </div>
+                    <div class="six wide column">
+                        <h4 class="ui header">Links</h4>
+                        <div id="condor">
+                            <!--                This is where the condor field will show up.-->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="six wide column">
-              <h4 class="ui header">Links</h4>
-              <div id="condor">
-<!--                This is where the condor field will show up.-->
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
     <script type="text/javascript">
-      $(document).ready(function() {
-        $("#condor").condor({
-          inactiveHint: 'add another link',
-          activeHint: 'Github, Dribbble, Behance, etc',
-          activeIcon: 'linkify'
+        $(document).ready(function () {
+            $("#condor").condor({
+                inactiveHint: 'add another link',
+                activeHint: 'Github, Dribbble, Behance, etc',
+                activeIcon: 'linkify'
+            });
         });
-      });
     </script>
-  </body>
+</body>
+
 </html>
