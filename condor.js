@@ -11,8 +11,8 @@
                 inactiveClass: 'condor-add',
                 activeClass: 'condor-active',
                 filledClass: 'condor-filled',
-                addCallback: function() {},
-                activateCallback: function() {},
+                addCallback: function () {},
+                activateCallback: function () {},
                 inputType: 'text'
             }, options),
             target = this,
@@ -45,9 +45,9 @@
             input.bind("propertychange keyup input paste", function (event) {
                 // If no longer an empty string
                 if ($(this).val() !== '') {
-                    
+
                     field.addClass(settings.filledClass);
-                    
+
                     input.unbind("propertychange keyup input paste blur");
                     if (numInputs < settings.maxInputs) {
                         addInactiveField(numInputs);
@@ -62,13 +62,13 @@
                     });
                 }
             });
-            
+
             input.blur(function () {
                 if (($(this).val() === '') && (numInputs > 1)) {
                     $(this).unbind();
                     $(this).parent().parent().remove();
                     numInputs -= 1;
-                    
+
                     if (numInputs < settings.maxInputs) {
                         addInactiveField(numInputs);
                     }
