@@ -1,4 +1,4 @@
-//Condor version 1.1
+//Condor version 1.3
 (function ($) {
     $.fn.condor = function (options) {
         var settings = $.extend({
@@ -8,24 +8,28 @@
                 inactiveHint: 'add input',
                 activeHint: '',
                 activeIcon: 'linkify',
+                inactiveClass: 'condor-add',
+                activeClass: 'condor-active',
+                filledClass: 'condor-filled',
                 addCallback: function() {},
-                activateCallback: function() {}
+                activateCallback: function() {},
+                inputType: 'text'
             }, options),
             target = this,
             numInputs = 0;
 
         function addField(hint, parentclass, childclass) {
-            target.append("<div class='field " + parentclass + " '><div class='ui left icon input " + childclass + "'><input type='text' placeholder='" + settings.inactiveHint + "'><i class='plus icon'></i></div></div>");
+            target.append("<div class='field " + parentclass + " '><div class='ui left icon input " + childclass + "'><input type='" + settings.inputType + "' placeholder='" + settings.inactiveHint + "'><i class='plus icon'></i></div></div>");
         }
 
         function makeActive(field) {
             var index = numInputs,
                 name = settings.namePrefix + '-' + index,
-                input = $(".condor-add input");
+                input = $(settings.inactiveClass + " input");
             numInputs += 1;
-            $(".condor-add > div").removeClass('inverted');
-            $(".condor-add i").removeClass('plus');
-            $(".condor-add i").addClass(settings.activeIcon);
+            $(settings.inactiveClass + " > div").removeClass('inverted');
+            $(settings.inactiveClass + " i").removeClass('plus');
+            $(settings.inactiveClass + " i").addClass(settings.activeIcon);
             input.attr('placeholder', settings.activeHint);
             if (settings.uniqueNames) {
                 input.attr('name', name);
@@ -34,12 +38,16 @@
             }
             $(field).unbind();
             $(input).unbind();
-            $(field).removeClass('condor-add');
+            $(field).removeClass(settings.inactiveClass);
+            $(field).addClass(settings.activeClass);
 
             //Bind a thing that detects when the field gets filled
             input.bind("propertychange keyup input paste", function (event) {
                 // If no longer an empty string
                 if ($(this).val() !== '') {
+                    
+                    field.addClass(settings.filledClass);
+                    
                     input.unbind("propertychange keyup input paste blur");
                     if (numInputs < settings.maxInputs) {
                         addInactiveField(numInputs);
