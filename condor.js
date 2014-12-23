@@ -1,4 +1,5 @@
-// CONDOR EXPERIMENTAL HACK@BROWN VERSION
+// CONDOR 1.5
+// Made by Chen Ye, MIT License
 
 (function ($) {
   
@@ -8,7 +9,6 @@
             numInputs = 0,
             publicMethods = {
                 getValues: function () {
-                    console.log("getting values");
                     var values = [], i = 0;
                     $target.find(".condor-active input").each(function () {
                         if (this.value.length !== 0) {
@@ -86,16 +86,6 @@
 
             settings.activateCallback.call();
         }
-        
-        function prepopulate() {
-            settings.prepopulate.forEach(function (value, index, ar) {
-                var $field = addActiveField(refreshNumInputs()),
-                    $input = $field.find("input");
-                $input.val(value);
-                makeActive($field);
-                $input.unbind();
-            });
-        }
                                          
         function addActiveField(id) {
             addField('', 'condor-active', '');
@@ -137,10 +127,24 @@
                 prepopulate: []
             }, command);
         }
+
+        function prepopulate() {
+            settings.prepopulate.forEach(function (value, index, ar) {
+                var $field = addActiveField(refreshNumInputs()),
+                    $input = $field.find("input");
+                $input.val(value);
+                makeActive($field);
+                $input.unbind();
+            });
+        }
         
-        prepopulate();
-        addInactiveField(numInputs);
-        makeActive($target.children(".condor-add"));
+        function initialize() {
+            prepopulate();
+            addInactiveField(numInputs);
+            makeActive($target.children(".condor-add"));
+        }
+        
+        initialize();
         return this;
     };
 
