@@ -2,14 +2,15 @@
 // Made by Chen Ye, MIT License
 
 (function ($) {
-  
+
     $.fn.condor = function (command) {
         var settings,
             $target = $(this),
             numInputs = 0,
             publicMethods = {
                 getValues: function () {
-                    var values = [], i = 0;
+                    var values = [],
+                        i = 0;
                     $target.find(".condor-active input").each(function () {
                         if (this.value.length !== 0) {
                             values[i] = this.value;
@@ -19,8 +20,8 @@
                     return values;
                 }
             };
-        
-        
+
+
         function refreshNumInputs() {
             numInputs = $target.children(".condor-active").length;
             return numInputs;
@@ -30,11 +31,64 @@
             $target.append("<div class='field " + parentclass + " '><div class='ui left icon input " + childclass + "'><input type='" + settings.inputType + "' placeholder='" + settings.inactiveHint + "'><i class='plus icon'></i></div></div>");
         }
 
+        function addActiveField(id) {
+            addField('', 'condor-active', '');
+            return $target.children(".condor-active").filter(function () {
+                return $(this).find("input").val().length === 0;
+            }).first();
+        }
+
+        function addInactiveField(id) {
+            var $field = $target.children(".condor-add");
+            addField('add another link', 'condor-add', 'inverted');
+            settings.addCallback.call();
+            return $field;
+        }
+
+        function removeInactiveFields() {
+            $target.children(".condor-add").remove();
+        }
+
+        function bindInactive() {
+            $target.on("click focusin", ".condor-add", function () {
+                makeActive($(this));
+            });
+        }
+
+
+        function bindActive() {
+            //This instantaneously detects if an active input gets filled
+            $target.on("propertychange keyup input paste", ".condor-active", function (event) {
+                var $this = $(this);
+                var $input = $this.find("input");
+
+                // If no longer an empty string
+                if ($input.val() === '') {
+                    $this.addClass("new");
+                    removeInactiveFields();
+                } else if ($this.hasClass("new")) {
+                    $this.removeClass("new");
+                    refreshNumInputs();
+                    if (numInputs < settings.maxInputs) {
+                        addInactiveField(numInputs);
+                    }
+                }
+            });
+
+            $target.on("blur", ".condor-active input", function (event) {
+                if ((this.value === '') && (numInputs > 1)) {
+                    $(this).parent().parent().remove();
+                    numInputs -= 1;
+                }
+            });
+
+        }
+
         function makeActive($field) {
             var index,
                 name,
                 $input = $field.find('input'),
-                $icon =  $field.find('i.icon');
+                $icon = $field.find('i.icon');
             numInputs += 1;
             $field.find('.input.inverted').removeClass('inverted');
             $icon.removeClass('plus');
@@ -47,70 +101,12 @@
             } else {
                 $input.attr('name', settings.namePrefix);
             }
-            $field.unbind();
-            $input.unbind();
-            $field.addClass('condor-active');
+            $field.addClass('condor-active new');
             $field.removeClass('condor-add');
-
-            //Bind a thing that detects when the field gets filled
-            $input.bind("propertychange keyup input paste", function (event) {
-                // If no longer an empty string
-                if (this.value !== '') {
-                    $input.unbind("propertychange keyup input paste blur");
-                    refreshNumInputs();
-                    if (numInputs < settings.maxInputs) {
-                        addInactiveField(numInputs);
-                    }
-
-                    $input.blur(function () {
-                        if ((this.value === '') && (numInputs > 1)) {
-                            $(this).unbind();
-                            $(this).parent().parent().remove();
-                            numInputs -= 1;
-                        }
-                    });
-                }
-            });
-            
-            input.blur(function () {
-                if (($(this).val() === '') && (numInputs > 1)) {
-                    $(this).unbind();
-                    $(this).parent().parent().remove();
-                    numInputs -= 1;
-                    
-                    if (numInputs < settings.maxInputs) {
-                        addInactiveField(numInputs);
-                    }
-                }
-            });
 
             settings.activateCallback.call();
         }
-                                         
-        function addActiveField(id) {
-            addField('', 'condor-active', '');
-            return $target.children(".condor-active").filter(function () { return $(this).find("input").val().length === 0; }).first();
-        }
 
-        function addInactiveField(id) {
-            addField('add another link', 'condor-add', 'inverted');
-            var $field = $target.find(".condor-add"),
-                $input = $field.find("input");
-            
-            $input.click(function () {
-                $(this).unbind("click");
-                $input.unbind("focusin");
-                makeActive(this);
-            });
-            $input.focusin(function () {
-                $(this).unbind("focusin");
-                $field.unbind("click");
-                makeActive($field);
-            });
-            settings.addCallback.call();
-            return $field;
-        }
-        
         if (publicMethods[command]) {
             return publicMethods[command].apply(this, []);
         } else {
@@ -134,16 +130,17 @@
                     $input = $field.find("input");
                 $input.val(value);
                 makeActive($field);
-                $input.unbind();
             });
         }
-        
+
         function initialize() {
+            bindActive();
+            bindInactive();
             prepopulate();
             addInactiveField(numInputs);
             makeActive($target.children(".condor-add"));
         }
-        
+
         initialize();
         return this;
     };
