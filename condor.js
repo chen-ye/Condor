@@ -59,9 +59,9 @@
         function bindActive() {
             //This instantaneously detects if an active input gets filled
             $target.on("propertychange keyup input paste", ".condor-active", function (event) {
-                var $this = $(this);
-                var $input = $this.find("input");
-
+                var $this = $(this),
+                    $input = $this.find("input");
+                
                 // If no longer an empty string
                 if ($input.val() === '') {
                     $this.addClass("new");
