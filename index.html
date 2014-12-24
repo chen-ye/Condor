@@ -25,7 +25,7 @@
     <div class="ui page grid">
         <div class="column">
             <div class="ui form segment">
-                <h1 class="ui dividing header">Condor.js <span class="sub header">version 1.1</span></h1>
+                <h1 class="ui dividing header">Condor.js <span class="sub header">version 1.5</span></h1>
                 <div class="ui grid">
                     <div class="ten wide column">
                         <h4 class="ui header">Demo</h4>
@@ -79,20 +79,20 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td><b>minInputs</b>
+                                    </td>
+                                    <td><i>int</i>
+                                    </td>
+                                    <td>1</td>
+                                    <td>the min number of inputs we'll resize to</td>
+                                </tr>
+                                <tr>
                                     <td><b>maxInputs</b>
                                     </td>
                                     <td><i>int</i>
                                     </td>
                                     <td>10</td>
-                                    <td>the max number of inputs this collection will resize to</td>
-                                </tr>
-                                <tr>
-                                    <td><b>uniqueNames</b>
-                                    </td>
-                                    <td><i>boolean</i>
-                                    </td>
-                                    <td>true</td>
-                                    <td>whether Condor inputs have unique ids appended to their namePrefix</td>
+                                    <td>the max number of inputs we'll resize to</td>
                                 </tr>
                                 <tr>
                                     <td><b>namePrefix</b>
@@ -103,20 +103,36 @@
                                     <td>what gets prepended to the name of each Condor input</td>
                                 </tr>
                                 <tr>
+                                    <td><b>uniqueNames</b>
+                                    </td>
+                                    <td><i>boolean</i>
+                                    </td>
+                                    <td>true</td>
+                                    <td>whether we'll append unique ids to Condor input namePrefixes</td>
+                                </tr>
+                                <tr>
                                     <td><b>inactiveHint</b>
                                     </td>
                                     <td><i>string</i>
                                     </td>
                                     <td>'add input'</td>
-                                    <td>the placeholder text for Condor input prompts</td>
+                                    <td>placeholder text for inactive Condor input</td>
+                                </tr>
+                                <tr>
+                                    <td><b>inactiveInputClass</b>
+                                    </td>
+                                    <td><i>string</i>
+                                    </td>
+                                    <td>'inverted'</td>
+                                    <td><p>class which gets applied and removed to the input wrapper of inactive Condor inputs</p> <p><i>this is a quirky way to make inactive inputs borderless w/o introducing css.  If you're using your own styles, target <b>condor-add</b>, a class applied to inactive inputs at the field wrapper level.</i></p></td>
                                 </tr>
                                 <tr>
                                     <td><b>activeHint</b>
                                     </td>
                                     <td><i>string</i>
                                     </td>
-                                    <td>(empty)</td>
-                                    <td>the placeholder text for activated Condor inputs</td>
+                                    <td><i>none</i></td>
+                                    <td>placeholder text for activated Condor inputs</td>
                                 </tr>
                                 <tr>
                                     <td><b>activeIcon</b>
@@ -126,9 +142,41 @@
                                     <td>'linkify'</td>
                                     <td>the semantic-ui icon for activated Condor inputs</td>
                                 </tr>
+                                <tr>
+                                    <td><b>addCallback</b>
+                                    </td>
+                                    <td><i>function ()</i>
+                                    </td>
+                                    <td>function () {}</td>
+                                    <td>a zero-parameter function which gets called every time an input is added</td>
+                                </tr>
+                                <tr>
+                                    <td><b>activateCallback</b>
+                                    </td>
+                                    <td><i>function ()</i>
+                                    </td>
+                                    <td>function () {}</td>
+                                    <td>a zero-parameter function which gets called every time an input is activated</td>
+                                </tr>
+                                <tr>
+                                    <td><b>inputType</b>
+                                    </td>
+                                    <td><i>string</i>
+                                    </td>
+                                    <td>'text'</td>
+                                    <td><p>the input type of Condor inputs.</p> <p>don't try anything crazy like radio buttons!</p></td>
+                                </tr>
+                                <tr>
+                                    <td><b>prepopulate</b>
+                                    </td>
+                                    <td><i>string []</i>
+                                    </td>
+                                    <td><i>none</i></td>
+                                    <td><p>an array of strings to prepopulate Condor with.</p>  <p>useful for loading saved data</p></td>
+                                </tr>
                             </tbody>
                         </table>
-                        <h4 class="ui header">&copy; 2014 Chen Ye | MIT License</h4>
+                        <h4 class="ui header">&copy; 2014 Chen Ye | MIT License |  <span style="font-weight: normal">Bugs?  File an issue <a href="https://github.com/chen-ye/Condor/issues">here!</a></span></h4>
 
                     </div>
                     <div class="six wide column">

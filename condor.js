@@ -40,7 +40,7 @@
 
         function addInactiveField(id) {
             var $field = $target.children(".condor-add");
-            addField('add another link', 'condor-add', 'inverted');
+            addField('add another link', 'condor-add', settings.inactiveInputClass);
             settings.addCallback.call();
             return $field;
         }
@@ -76,7 +76,7 @@
             });
 
             $target.on("blur", ".condor-active input", function (event) {
-                if ((this.value === '') && (numInputs > 1)) {
+                if ((this.value === '') && (numInputs > settings.minInputs)) {
                     $(this).parent().parent().remove();
                     numInputs -= 1;
                 }
@@ -90,7 +90,7 @@
                 $input = $field.find('input'),
                 $icon = $field.find('i.icon');
             numInputs += 1;
-            $field.find('.input.inverted').removeClass('inverted');
+            $field.find('.input').removeClass(settings.inactiveInputClass);
             $icon.removeClass('plus');
             $icon.addClass(settings.activeIcon);
             $input.attr('placeholder', settings.activeHint);
@@ -111,10 +111,12 @@
             return publicMethods[command].apply(this, []);
         } else {
             settings = $.extend({
+                minInputs: 1,
                 maxInputs: 10,
-                uniqueNames: true,
                 namePrefix: 'inputs',
+                uniqueNames: true,
                 inactiveHint: 'add input',
+                inactiveInputClass: 'inverted',
                 activeHint: '',
                 activeIcon: 'linkify',
                 addCallback: function () {},
@@ -137,7 +139,9 @@
             bindActive();
             bindInactive();
             prepopulate();
-            addInactiveField(numInputs);
+            for (i = 0; i < settings.minInputs; i++) {
+                addInactiveField(numInputs);
+            }
             makeActive($target.children(".condor-add"));
         }
 
