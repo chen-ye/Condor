@@ -1,5 +1,4 @@
-// CONDOR 1.5
-// Made by Chen Ye, MIT License
+// CONDOR 1.5 Made by Chen Ye, MIT License
 
 (function ($) {
 
@@ -44,6 +43,16 @@
             settings.addCallback.call();
             return $field;
         }
+        
+        function conditionalAddInactiveField() {
+            if ($target.hasClass("no-new")) {
+                $target.removeClass("no-new");
+                refreshNumInputs();
+                if (numInputs < settings.maxInputs) {
+                    addInactiveField(numInputs);
+                }
+            }
+        }
 
         function removeInactiveFields() {
             $target.children(".condor-add").remove();
@@ -55,7 +64,6 @@
             });
         }
 
-
         function bindActive() {
             //This instantaneously detects if an active input gets filled
             $target.on("propertychange keyup input paste", ".condor-active", function (event) {
@@ -64,14 +72,10 @@
                 
                 // If no longer an empty string
                 if ($input.val() === '') {
-                    $this.addClass("new");
+                    $target.addClass("no-new");
                     removeInactiveFields();
-                } else if ($this.hasClass("new")) {
-                    $this.removeClass("new");
-                    refreshNumInputs();
-                    if (numInputs < settings.maxInputs) {
-                        addInactiveField(numInputs);
-                    }
+                } else {
+                    conditionalAddInactiveField();
                 }
             });
 
@@ -79,7 +83,8 @@
                 if ((this.value === '') && (numInputs > settings.minInputs)) {
                     $(this).parent().parent().remove();
                     numInputs -= 1;
-                }
+                    conditionalAddInactiveField();
+                }                
             });
 
         }
@@ -101,9 +106,9 @@
             } else {
                 $input.attr('name', settings.namePrefix);
             }
-            $field.addClass('condor-active new');
+            $field.addClass('condor-active');
             $field.removeClass('condor-add');
-
+            $target.addClass('no-new');
             settings.activateCallback.call();
         }
 
@@ -136,10 +141,11 @@
         }
 
         function initialize() {
+            $target.addClass('no-new');
             bindActive();
             bindInactive();
             prepopulate();
-            for (i = 0; i < settings.minInputs; i++) {
+            for (i = numInputs; i < settings.minInputs; i++) {
                 addInactiveField(numInputs);
             }
             makeActive($target.children(".condor-add"));
